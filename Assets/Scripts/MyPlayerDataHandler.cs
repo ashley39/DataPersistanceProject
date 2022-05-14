@@ -8,8 +8,6 @@ using UnityEngine.UI;
 public class MyPlayerDataHandler : MonoBehaviour
 {
     public static MyPlayerDataHandler Instance;
-    MainManager manager;
-    MyMenuUI_Handler handler;
 
     public string playerName;
     public int score;
@@ -47,11 +45,11 @@ public class MyPlayerDataHandler : MonoBehaviour
 
     public void CheckBestPlayer()
     {
-        int currentScore = MyPlayerDataHandler.Instance.score;
+        int currentScore = score;
 
         if (currentScore > bestScore)
         {
-            bestPlayer = MyPlayerDataHandler.Instance.playerName;
+            bestPlayer = playerName;
             bestScore = currentScore;
 
             GameObject.Find("MainManager").
