@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,7 +20,15 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
+    //Fields for player name and best score
+    public Text currentPlayerName;
+    public Text bestPlayerName;    
+
+    private void Awake()
+    {
+        MyPlayerDataHandler.Instance.LoadGame();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +46,10 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed += AddPoint;
             }
         }
+
+        currentPlayerName.text = MyPlayerDataHandler.Instance.playerName;
+
+        MyPlayerDataHandler.Instance.SetBestPlayer();
     }
 
     private void Update()
@@ -45,9 +59,9 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 m_Started = true;
-                float randomDirection = Random.Range(-1.0f, 1.0f);
+                float randomDirection = UnityEngine.Random.Range(-0.5f, 0.5f);
                 Vector3 forceDir = new Vector3(randomDirection, 1, 0);
-                forceDir.Normalize();
+                //forceDir.Normalize();
 
                 Ball.transform.SetParent(null);
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
@@ -55,6 +69,8 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
+            MyPlayerDataHandler.Instance.CheckBestPlayer();
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -65,12 +81,14 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
+        MyPlayerDataHandler.Instance.score = m_Points;
         ScoreText.text = $"Score : {m_Points}";
     }
 
     public void GameOver()
     {
         m_GameOver = true;
+        MyPlayerDataHandler.Instance.CheckBestPlayer();
         GameOverText.SetActive(true);
-    }
+    }      
 }

@@ -6,9 +6,6 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     private Rigidbody m_Rigidbody;
-    public bool Enter;
-    public bool Stay;
-    public bool exit;
 
     void Start()
     {
@@ -20,7 +17,7 @@ public class Ball : MonoBehaviour
         var velocity = m_Rigidbody.velocity;
 
         //after a collision we accelerate a bit
-        velocity += velocity.normalized * 3.01f;
+        velocity += velocity.normalized * 5f;
 
         //check if we are not going totally vertically as this would lead to being stuck, we add a little vertical force
         if (Vector3.Dot(velocity.normalized, Vector3.up) < 1f)
