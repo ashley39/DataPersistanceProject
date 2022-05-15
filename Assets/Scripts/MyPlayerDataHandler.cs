@@ -37,7 +37,6 @@ public class MyPlayerDataHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("Best Player");
             GameObject.Find("MainManager").
                 GetComponent<MainManager>().bestPlayerName.text = $"Best Score: {bestPlayer} : {bestScore}";
         }
