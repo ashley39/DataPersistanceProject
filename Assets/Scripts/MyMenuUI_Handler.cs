@@ -7,8 +7,7 @@ using UnityEngine.UI;
 
 public class MyMenuUI_Handler : MonoBehaviour
 {
-    [SerializeField] Text playerNameInput;
-    public Text bestScore;
+    [SerializeField] InputField playerNameInput;
 
     public void StartGame()
     {

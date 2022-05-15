@@ -11,14 +11,13 @@ public class MyPlayerDataHandler : MonoBehaviour
 
     public string playerName;
     public int score;
-    private int bestScore;
-    private string bestPlayer;
+    [SerializeField] Text menuScore; //high score displayed on menu screen
+
+    public int bestScore;
+    public string bestPlayer;
 
     private void Awake()
     {
-        LoadGame();
-        GameObject.Find("BestScore").GetComponentInChildren<Text>().text = $"Best Score: {bestPlayer} : {bestScore}";
-
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -27,35 +26,8 @@ public class MyPlayerDataHandler : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-    public void SetBestPlayer()
-    {
-        if (bestPlayer == null && bestScore == 0)
-        {
-            GameObject.Find("MainManager").
-                GetComponent<MainManager>().bestPlayerName.text = "";
-        }
-        else
-        {
-            GameObject.Find("MainManager").
-                GetComponent<MainManager>().bestPlayerName.text = $"Best Score: {bestPlayer} : {bestScore}";
-        }
-    }
-
-    public void CheckBestPlayer()
-    {
-        int currentScore = score;
-
-        if (currentScore > bestScore)
-        {
-            bestPlayer = playerName;
-            bestScore = currentScore;
-
-            GameObject.Find("MainManager").
-                GetComponent<MainManager>().bestPlayerName.text = $"Best Score: {bestPlayer} : {bestScore}";
-
-            SaveGame(bestPlayer, bestScore);
-        }
+        LoadGame();
+        menuScore.text = $"Best Score: {bestPlayer} : {bestScore}";
     }
 
     [Serializable]

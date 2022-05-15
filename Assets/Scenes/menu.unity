@@ -206,6 +206,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: 
   score: 0
+  menuScore: {fileID: 1551170385}
+  bestScore: 0
+  bestPlayer: 
 --- !u!1 &455529321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,5 +1438,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1d4f32be95e8a549ba1b027a5077566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNameInput: {fileID: 1275526520}
-  bestScore: {fileID: 1551170385}
+  playerNameInput: {fileID: 831848544}

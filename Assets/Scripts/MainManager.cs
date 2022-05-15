@@ -22,12 +22,7 @@ public class MainManager : MonoBehaviour
 
     //Fields for player name and best score
     public Text currentPlayerName;
-    public Text bestPlayerName;    
-
-    private void Awake()
-    {
-        MyPlayerDataHandler.Instance.LoadGame();
-    }
+    public Text bestPlayerName;
 
     // Start is called before the first frame update
     void Start()
@@ -48,8 +43,35 @@ public class MainManager : MonoBehaviour
         }
 
         currentPlayerName.text = MyPlayerDataHandler.Instance.playerName;
+        SetBestPlayer();
+    }
+    private void CheckBestPlayer()
+    {
+        int currentScore = MyPlayerDataHandler.Instance.score;
 
-        MyPlayerDataHandler.Instance.SetBestPlayer();
+        if (currentScore > MyPlayerDataHandler.Instance.bestScore)
+        {
+            MyPlayerDataHandler.Instance.bestPlayer = MyPlayerDataHandler.Instance.playerName;
+            MyPlayerDataHandler.Instance.bestScore = currentScore;
+
+            bestPlayerName.text = $"Best Score: {MyPlayerDataHandler.Instance.bestPlayer} : " +
+                                             $"{MyPlayerDataHandler.Instance.bestScore}";
+
+            MyPlayerDataHandler.Instance.SaveGame(MyPlayerDataHandler.Instance.bestPlayer, 
+                                            MyPlayerDataHandler.Instance.bestScore);
+        }
+    }
+    public void SetBestPlayer()
+    {
+        if (MyPlayerDataHandler.Instance.bestPlayer == null && MyPlayerDataHandler.Instance.bestScore == 0)
+        {
+            bestPlayerName.text = "";
+        }
+        else
+        {
+            bestPlayerName.text = $"Best Score: {MyPlayerDataHandler.Instance.bestPlayer} : " +
+                                    $"{MyPlayerDataHandler.Instance.bestScore}";
+        }
     }
 
     private void Update()
@@ -61,7 +83,7 @@ public class MainManager : MonoBehaviour
                 m_Started = true;
                 float randomDirection = UnityEngine.Random.Range(-0.5f, 0.5f);
                 Vector3 forceDir = new Vector3(randomDirection, 1, 0);
-                //forceDir.Normalize();
+                forceDir.Normalize();
 
                 Ball.transform.SetParent(null);
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
@@ -69,8 +91,6 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
-            MyPlayerDataHandler.Instance.CheckBestPlayer();
-
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -88,7 +108,7 @@ public class MainManager : MonoBehaviour
     public void GameOver()
     {
         m_GameOver = true;
-        MyPlayerDataHandler.Instance.CheckBestPlayer();
+        CheckBestPlayer();
         GameOverText.SetActive(true);
     }      
 }
