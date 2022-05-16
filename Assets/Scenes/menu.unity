@@ -898,7 +898,7 @@ GameObject:
   - component: {fileID: 1551170386}
   - component: {fileID: 1551170385}
   m_Layer: 5
-  m_Name: BestScore
+  m_Name: MenuBestScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

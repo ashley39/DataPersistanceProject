@@ -21,8 +21,8 @@ public class MainManager : MonoBehaviour
     private bool m_GameOver = false;
 
     //Fields for player name and best score
-    public Text currentPlayerName;
-    public Text bestPlayerName;
+    [SerializeField] Text currentPlayerName;
+    [SerializeField] Text bestPlayerName;
 
     // Start is called before the first frame update
     void Start()
@@ -47,12 +47,12 @@ public class MainManager : MonoBehaviour
     }
     private void CheckBestPlayer()
     {
-        int currentScore = MyPlayerDataHandler.Instance.score;
+        m_Points = MyPlayerDataHandler.Instance.score;
 
-        if (currentScore > MyPlayerDataHandler.Instance.bestScore)
+        if (m_Points > MyPlayerDataHandler.Instance.bestScore)
         {
             MyPlayerDataHandler.Instance.bestPlayer = MyPlayerDataHandler.Instance.playerName;
-            MyPlayerDataHandler.Instance.bestScore = currentScore;
+            MyPlayerDataHandler.Instance.bestScore = m_Points;
 
             bestPlayerName.text = $"Best Score: {MyPlayerDataHandler.Instance.bestPlayer} : " +
                                              $"{MyPlayerDataHandler.Instance.bestScore}";
@@ -61,7 +61,7 @@ public class MainManager : MonoBehaviour
                                             MyPlayerDataHandler.Instance.bestScore);
         }
     }
-    public void SetBestPlayer()
+    private void SetBestPlayer()
     {
         if (MyPlayerDataHandler.Instance.bestPlayer == null && MyPlayerDataHandler.Instance.bestScore == 0)
         {
